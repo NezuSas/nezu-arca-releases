@@ -1,56 +1,86 @@
-# NEZU Administrator Releases
+<div align="center">
+  <img src=".github/banner.svg" alt="NEZU · Catálogo firmado de plataformas para NEZU Arca" width="100%">
+</div>
 
-This repository publishes the public artifacts used by NEZU Administrator.
+# Catálogo firmado de plataformas · NEZU Arca
 
-## Platform assets
+[NEZU Arca](https://apps.microsoft.com/detail/9N607VDQQ6B2) es la bóveda local de credenciales de NEZU. Para mostrar cada cuenta con el icono de su plataforma (bancos, redes sociales, servicios) sin incorporar imágenes al instalador, Arca descarga un **catálogo público firmado** desde este repositorio y verifica cada icono antes de guardarlo en caché.
 
-`assets/catalog.json` lists the available platforms and the SHA-256 digest of
-each icon. Icons live in `assets/platforms/`; they are independent from the
-executable release.
+Aquí no hay código de la aplicación ni datos de usuarios: solo el catálogo, los iconos y las herramientas para mantenerlos.
 
-The Administrator accepts a catalog only when `assets/catalog.json.sig` is a
-valid Ed25519 signature produced with the existing NEZU release key. It then
-validates each icon digest before caching it locally.
+## Cómo funciona
 
-### Publishing a new platform
+| Archivo | Papel |
+|---|---|
+| `assets/catalog.json` | Lista de plataformas disponibles con la huella SHA‑256 de cada icono y un `catalog_version` que crece con cada publicación. |
+| `assets/catalog.json.sig` | Firma **Ed25519** del catálogo, producida con la clave de release de NEZU. |
+| `assets/platforms/` | Los iconos. Son independientes del ejecutable de Arca. |
+| `assets/SOURCES.md` | Origen oficial de cada imagen. |
 
-From PowerShell, run this single command inside the repository:
+Arca acepta un catálogo solo si la firma es válida con la clave pública que lleva incorporada. Después comprueba la huella de cada icono antes de usarlo. Un catálogo sin firma, o con una huella que no coincide, se descarta en silencio y la aplicación sigue con la versión anterior.
+
+## Publicar una plataforma nueva
+
+Desde PowerShell, con el repositorio limpio:
 
 ```powershell
 .\tools\add-platform.ps1
 ```
 
-It asks for the platform name and the icon path, then calculates the SHA-256,
-increments `catalog_version`, copies the image, commits and pushes the change.
-GitHub Actions signs the catalog automatically. The repository must be clean
-before it runs, so unrelated files are never included in its commit.
-
-You can also supply both values directly:
+Pide el nombre de la plataforma y la ruta del icono, calcula la huella SHA‑256, incrementa `catalog_version`, copia la imagen y confirma y sube el cambio. También acepta los dos valores directamente:
 
 ```powershell
-.\tools\add-platform.ps1 -Name "Discord" -IconPath "C:\Images\discord.png"
+.\tools\add-platform.ps1 -Name "Discord" -IconPath "C:\Imagenes\discord.png"
 ```
 
-### Replacing existing icons
+## Reemplazar iconos existentes
 
-Use the Python helper to replace one or more existing icons in a single catalog
-revision. It validates every platform and source before writing, refreshes each
-SHA-256, and increments `catalog_version` only once:
+El ayudante en Python reemplaza uno o varios iconos en una sola revisión del catálogo. Valida cada plataforma y cada archivo antes de escribir, recalcula las huellas e incrementa `catalog_version` una sola vez:
 
 ```powershell
 python .\tools\add_platform.py `
-  --replace "Banco Guayaquil=C:\Images\banco-guayaquil.png" `
-  --replace "VIGI=C:\Images\vigi.png"
+  --replace "Banco Guayaquil=C:\Imagenes\banco-guayaquil.png" `
+  --replace "VIGI=C:\Imagenes\vigi.png"
 ```
 
-Keep the existing file extension and record the official source in
-[`assets/SOURCES.md`](assets/SOURCES.md). Do not edit catalog digests manually.
+Conserva la extensión original del archivo y anota la fuente en `assets/SOURCES.md`. Nunca edites las huellas a mano.
 
-For example, to publish Banco Guayaquil from a downloaded logo:
+## Firmar el catálogo
+
+La firma se genera en local con la clave de release, que vive únicamente en la variable de entorno `NEZU_RELEASE_PRIVATE_KEY_HEX` del equipo autorizado. Nunca en un archivo, un commit ni un registro.
 
 ```powershell
-.\tools\add-platform.ps1 -Name "Banco Guayaquil" -IconPath "C:\Users\ocuen\Downloads\bancoguayaquil.png"
+python .\tools\sign_catalog.py --catalog assets\catalog.json --signature assets\catalog.json.sig
 ```
-Before the first publication, add the existing `NEZU_RELEASE_PRIVATE_KEY_HEX`
-secret to this repository: **Settings → Secrets and variables → Actions**.
-The key never belongs in a file or commit.
+
+Confirma `catalog.json.sig` junto con el catálogo que firma. Si el catálogo se publicó antes que su firma, Arca lo rechaza hasta que la firma llegue: es el comportamiento esperado.
+
+> Hasta noviembre de 2026 la firma la producía un flujo de GitHub Actions. Ese flujo se retiró; la firma es ahora un paso local.
+
+## Estructura
+
+```text
+assets/
+  catalog.json          catálogo publicado
+  catalog.json.sig      firma Ed25519 del catálogo
+  platforms/            iconos por plataforma
+  SOURCES.md            origen oficial de cada icono
+tools/
+  add-platform.ps1      alta de plataforma con commit y push
+  add_platform.py       reemplazo de iconos en una sola revisión
+  sign_catalog.py       firma del catálogo con la clave de release
+tests/                  pruebas de las herramientas
+```
+
+## Reglas
+
+- Varias plataformas en un solo commit cuando sea posible: una sola firma y una sola versión.
+- Sin duplicados ni rutas fuera de `assets/platforms/`.
+- Material gráfico solo de fuentes oficiales, registrado en `SOURCES.md`.
+- No declarar un catálogo disponible hasta que la firma esté publicada y validada.
+
+---
+
+<div align="center">
+  <sub>Parte del ecosistema <a href="https://github.com/NezuSas">NEZU</a> · <a href="https://nezuecuador.com">nezuecuador.com</a> · © NEZU S.A.S. Publicado para los usuarios de NEZU Arca.</sub>
+</div>
