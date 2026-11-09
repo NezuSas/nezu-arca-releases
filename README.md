@@ -4,6 +4,8 @@
 
 # Catálogo firmado de plataformas · NEZU Arca
 
+> **In English.** The signed public catalog of platform icons used by NEZU Arca, a local credential vault for Windows. Anyone can verify the Ed25519 signature and the SHA-256 fingerprints with the included tool and the public key published here.
+
 [NEZU Arca](https://apps.microsoft.com/detail/9N607VDQQ6B2) es la bóveda local de credenciales de NEZU. Para mostrar cada cuenta con el icono de su plataforma (bancos, redes sociales, servicios) sin incorporar imágenes al instalador, Arca descarga un **catálogo público firmado** desde este repositorio y verifica cada icono antes de guardarlo en caché.
 
 Aquí no hay código de la aplicación ni datos de usuarios: solo el catálogo, los iconos y las herramientas para mantenerlos.
@@ -45,6 +47,22 @@ python .\tools\add_platform.py `
 
 Conserva la extensión original del archivo y anota la fuente en `assets/SOURCES.md`. Nunca edites las huellas a mano.
 
+## Verificar el catálogo
+
+Cualquiera puede comprobar que el catálogo publicado es el que firmó NEZU y que ningún icono fue alterado, con la misma clave pública que Arca lleva incorporada:
+
+```text
+170e1e42525574a7cc3e0cf25af429f0c797978936de5fd22a12e3d80424f921
+```
+
+```bash
+pip install cryptography
+python tools/verify_catalog.py            # el catálogo de este checkout
+python tools/verify_catalog.py --remote   # el publicado en GitHub, tal como lo descarga Arca
+```
+
+La herramienta valida la firma Ed25519 sobre la forma canónica del catálogo y después la huella SHA‑256 de cada icono. Termina con código `0` si todo coincide y `1`, con el detalle, si algo falla. Solo NEZU tiene la clave privada; la pública se puede redistribuir sin riesgo.
+
 ## Firmar el catálogo
 
 La firma se genera en local con la clave de release, que vive únicamente en la variable de entorno `NEZU_RELEASE_PRIVATE_KEY_HEX` del equipo autorizado. Nunca en un archivo, un commit ni un registro.
@@ -69,6 +87,7 @@ tools/
   add-platform.ps1      alta de plataforma con commit y push
   add_platform.py       reemplazo de iconos en una sola revisión
   sign_catalog.py       firma del catálogo con la clave de release
+  verify_catalog.py     verificación pública de firma y huellas
 tests/                  pruebas de las herramientas
 ```
 
