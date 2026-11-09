@@ -79,6 +79,10 @@ tests/                  pruebas de las herramientas
 - Material gráfico solo de fuentes oficiales, registrado en `SOURCES.md`.
 - No declarar un catálogo disponible hasta que la firma esté publicada y validada.
 
+## ¿Quieres NEZU Arca?
+
+Arca está en [Microsoft Store](https://apps.microsoft.com/detail/9N607VDQQ6B2) para Windows. Si necesitas Arca en varias estaciones de tu empresa, o una bóveda local adaptada a tu operación, [cuéntanos qué necesitas](https://nezuecuador.com/es/contacto) y te respondemos con una propuesta concreta.
+
 ---
 
 <div align="center">
