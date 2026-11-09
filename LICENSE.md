@@ -1,4 +1,4 @@
-# Licencia
+# Licencia NEZU de uso para clientes e integradores
 
 Copyright © 2026 NEZU S.A.S. Todos los derechos reservados.
 
