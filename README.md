@@ -83,6 +83,10 @@ tests/                  pruebas de las herramientas
 
 Arca está en [Microsoft Store](https://apps.microsoft.com/detail/9N607VDQQ6B2) para Windows. Si necesitas Arca en varias estaciones de tu empresa, o una bóveda local adaptada a tu operación, [cuéntanos qué necesitas](https://nezuecuador.com/es/contacto) y te respondemos con una propuesta concreta.
 
+## Licencia
+
+Licencia NEZU de uso para clientes e integradores: puedes leer, instalar y operar el código y proponer mejoras; no puedes redistribuirlo, venderlo ni usarlo para construir un producto o servicio competidor. Texto completo en [LICENSE.md](LICENSE.md).
+
 ---
 
 <div align="center">
