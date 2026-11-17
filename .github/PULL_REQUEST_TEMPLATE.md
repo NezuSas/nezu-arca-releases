@@ -4,7 +4,7 @@
 
 ## Cómo se probó
 
-<!-- Comandos ejecutados y resultado. Para el catálogo: `python -m pytest tests`. -->
+<!-- Qué comprobaste y con qué resultado. -->
 
 ## Lista de control
 

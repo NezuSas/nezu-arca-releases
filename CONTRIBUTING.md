@@ -1,6 +1,6 @@
 # Cómo contribuir
 
-Gracias por el interés en Catálogo firmado de NEZU Arca. Este repositorio lo mantiene NEZU S.A.S. y lo publicamos para que clientes, integradores y colaboradores puedan consultarlo, instalarlo y proponer mejoras. La [licencia](LICENSE.md) explica qué está permitido.
+Gracias por el interés en las publicaciones de NEZU Arca. Este repositorio lo mantiene NEZU S.A.S. y lo publicamos para que clientes, integradores y colaboradores puedan consultarlo, instalarlo y proponer mejoras. La [licencia](LICENSE.md) explica qué está permitido.
 
 ## Antes de empezar
 
@@ -12,7 +12,7 @@ Gracias por el interés en Catálogo firmado de NEZU Arca. Este repositorio lo m
 
 1. Parte de `main` en una rama con un nombre descriptivo.
 2. Un cambio por pull request, pequeño y explicado: qué resuelve y cómo lo probaste.
-3. Antes de enviarlo, ejecuta las comprobaciones del proyecto (Python 3): `python -m pytest tests`.
+3. Explica en la descripción cómo comprobaste el cambio.
 4. Mantén el estilo del código existente y no añadas dependencias sin justificarlas en la descripción.
 5. No incluyas secretos, direcciones internas ni datos de clientes en código, pruebas ni capturas.
 
